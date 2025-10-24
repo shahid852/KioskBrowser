@@ -16,7 +16,4 @@ KioskBrowser.exe "http://www.google.com"
 
 Close window by pressing ESC. (Disabled when title bar is enabled)
 
-<a href="https://apps.microsoft.com/detail/9NT0K2DFKHW8?mode=direct">
-    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download from Microsoft Store"/>
-</a>
 
