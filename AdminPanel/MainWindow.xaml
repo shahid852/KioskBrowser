@@ -1,0 +1,34 @@
+﻿<Window x:Class="AdminPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AdminPanel.ViewModels" 
+        xmlns:vm1="clr-namespace:AdminPanel.ViewModels.AdminPanel.ViewModels"
+        Title="Admin Panel" Height="700" Width="1100">
+    <Window.DataContext>
+        <vm1:AdminPanelViewModel />
+    </Window.DataContext>
+
+    <DockPanel>
+        <!-- Toolbar -->
+        <ToolBar DockPanel.Dock="Top" Padding="8">
+            <Button Content="Add Game" Command="{Binding AddGameCommand}" Margin="6"/>
+            <Button Content="Remove Selected" Command="{Binding RemoveGameCommand}" Margin="6"/>
+            <Separator/>
+            <Button Content="Save + Restart Kiosk" Command="{Binding SaveAndRestartCommand}" Margin="6" />
+        </ToolBar>
+
+        <!-- Editable grid -->
+        <Grid Margin="12">
+            <DataGrid ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="2*" />
+                    <DataGridTextColumn Header="Subtitle" Binding="{Binding Subtitle, Mode=TwoWay}" Width="1.5*" />
+                    <DataGridTextColumn Header="ShortName" Binding="{Binding ShortName, Mode=TwoWay}" Width="0.6*" />
+                    <DataGridTextColumn Header="Url" Binding="{Binding Url, Mode=TwoWay}" Width="3*" />
+                    <DataGridTextColumn Header="IconPath" Binding="{Binding IconPath, Mode=TwoWay}" Width="2*" />
+                    <DataGridTextColumn Header="AccentBrush" Binding="{Binding AccentBrush, Mode=TwoWay}" Width="1*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,138 @@
+﻿<Window x:Class="KioskBrowser.HomeWindow"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+         xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+         xmlns:local="clr-namespace:KioskBrowser"
+         xmlns:vm="clr-namespace:KioskBrowser.ViewModels"
+         xmlns:ut="clr-namespace:Utility;assembly=Utility"
+         Title="Games" WindowState="Maximized" Background="#FF0F1720">
+
+    <Window.Resources>
+        <!-- Model -> ViewModel friendly converter: returns Visibility.Collapsed if no icon -->
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- Touch-friendly button style -->
+        <Style x:Key="KioskGameButtonStyle" TargetType="Button">
+            <Setter Property="MinWidth" Value="240"/>
+            <Setter Property="MinHeight" Value="160"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="12"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF1F2937"/>
+            <Setter Property="BorderBrush" Value="#FF374151"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="18"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <!-- Shadow -->
+                                <Border CornerRadius="18" Background="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#44000000" BlurRadius="18" ShadowDepth="6" />
+                                    </Border.Effect>
+                                </Border>
+
+                                <!-- Content area -->
+                                <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.985" ScaleY="0.985"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Opacity" Value="0.95"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF263246"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataTemplate for each game item (icon + text) -->
+        <DataTemplate x:Key="GameItemTemplate" DataType="{x:Type ut:GameItem}">
+            <Button Style="{StaticResource KioskGameButtonStyle}"
+                    Command="{Binding DataContext.LaunchGameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                    CommandParameter="{Binding Url}"
+                    ToolTip="{Binding Description}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Icon area -->
+                    <Border Grid.Row="0" CornerRadius="12" Background="{Binding AccentBrush}">
+                        <Grid>
+                            <Image Source="{Binding IconPath}" Stretch="Uniform" Margin="16" Visibility="{Binding HasIcon, Converter={StaticResource BoolToVis}}" />
+                            <TextBlock Text="{Binding ShortName}" FontSize="28" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       Visibility="{Binding HasIcon, Converter={StaticResource BoolToVis}, ConverterParameter=inverse}"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Text area -->
+                    <StackPanel Grid.Row="1" Margin="10,8,10,8" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="White"/>
+                        <TextBlock Text="{Binding Subtitle}" FontSize="14" Opacity="0.8" TextWrapping="Wrap" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+            </Button>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Header -->
+        <DockPanel LastChildFill="True">
+            <Border Height="72" Background="#FF0B1220" DockPanel.Dock="Top" Padding="16">
+                <TextBlock Text="Games" FontSize="28" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+            </Border>
+
+            <!-- Search / Filter area (optional) -->
+            <StackPanel Orientation="Horizontal" Margin="12" DockPanel.Dock="Top" Height="56">
+                <TextBox Width="320" Height="40" VerticalAlignment="Center" Margin="0,0,12,0" 
+                         
+                         FontSize="16"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Width="160" Height="40" VerticalAlignment="Center" SelectedItem="{Binding SelectedCategory}">
+                    <ComboBoxItem>All</ComboBoxItem>
+                    <ComboBoxItem>Slots</ComboBoxItem>
+                    <ComboBoxItem>Table</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Scrollable wrap of large buttons -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="12">
+                <ItemsControl ItemsSource="{Binding FilteredGames}" ItemTemplate="{StaticResource GameItemTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" ItemWidth="260" ItemHeight="200" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

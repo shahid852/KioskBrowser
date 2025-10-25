@@ -26,7 +26,7 @@ public partial class App
         SimpleLogger.LogInfo("Version: " + AppSettings.Version);
         SimpleLogger.LogInfo("Store link: " + AppSettings.MicrosoftStoreLink);
 
-        var window = new MainWindow();
+        var window = new HomeWindow();
         window.Show();
     }
 

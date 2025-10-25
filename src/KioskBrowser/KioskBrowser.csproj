@@ -14,7 +14,7 @@
     <Company>Morten Brudvik</Company>
     <Product>Swift Kiosk Browser</Product>
     <Copyright>Morten Brudvik</Copyright>
-    <TreatWarningsAsErrors/>
+    <TreatWarningsAsErrors />
     <Configurations>Debug;Release</Configurations>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -38,6 +38,10 @@
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.8" />
     <PackageReference Include="Svg.Skia" Version="1.0.0.18" />
     <PackageReference Include="WPF-UI" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Utility.csproj" />
   </ItemGroup>
 
 </Project>
