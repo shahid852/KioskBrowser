@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,21 +11,28 @@ namespace Utility
     {
         private static readonly string GamesFilePath = Helpers.GetGamesFilePath();
 
-        public static List<GameItem> LoadGames()
+        public static List<GameItem> LoadGames()//out ObservableCollection<GameItem> oc_games)
         {
+            List<GameItem> items = new List<GameItem>();
             try
             {
                 if (!File.Exists(GamesFilePath))
                     return new List<GameItem>();
 
                 var json = File.ReadAllText(GamesFilePath);
-                var items = JsonSerializer.Deserialize<List<GameItem>>(json);
+                items = JsonSerializer.Deserialize<List<GameItem>>(json);
                 return items ?? new List<GameItem>();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"GamesStore.LoadGames() failed: {ex.Message}");
                 return new List<GameItem>();
+            }
+            finally
+            {
+                //oc_games = new ObservableCollection<GameItem>();
+                //foreach (var g in items)
+                //    oc_games.Add(g);
             }
         }
 

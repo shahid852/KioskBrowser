@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
-namespace AdminPanel.ViewModels
+namespace AdminUI.ViewModels
 {
 
     // Simple base viewmodel implementing INotifyPropertyChanged
@@ -46,17 +48,20 @@ namespace AdminPanel.ViewModels
         Task ExecuteAsync(object parameter);
     }
 
-    // AsyncRelayCommand for async Task commands
+
+
     public class AsyncRelayCommand : IAsyncCommand
     {
         private readonly Func<Task> _execute;
         private readonly Func<bool> _canExecute;
         private bool _isRunning;
+        private readonly SynchronizationContext _syncContext;
 
         public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
+            _syncContext = SynchronizationContext.Current; // capture UI context
         }
 
         public bool CanExecute(object parameter) => !_isRunning && (_canExecute == null || _canExecute());
@@ -73,6 +78,8 @@ namespace AdminPanel.ViewModels
             {
                 _isRunning = true;
                 RaiseCanExecuteChanged();
+
+                // run the provided async method — don't capture context here (it's fine)
                 await _execute().ConfigureAwait(false);
             }
             finally
@@ -82,9 +89,33 @@ namespace AdminPanel.ViewModels
             }
         }
 
+        // Ensure event raises on the captured synchronization context (UI thread)
         public event EventHandler CanExecuteChanged;
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        //public void RaiseCanExecuteChanged()
+        //{
+        //    if (_syncContext != null)
+        //    {
+        //        _syncContext.Post(_ => CanExecuteChanged?.Invoke(this, EventArgs.Empty), null);
+        //    }
+        //    else
+        //    {
+        //        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        //    }
+        //}
+        public void RaiseCanExecuteChanged()
+        {
+            var dispatcher = Application.Current?.Dispatcher;
+            if (dispatcher != null && !dispatcher.CheckAccess())
+            {
+                dispatcher.BeginInvoke(new Action(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty)));
+            }
+            else
+            {
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
     }
+
 }
 
 

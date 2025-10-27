@@ -33,10 +33,14 @@ namespace KioskBrowser.ViewModels
             LaunchGameCommand = new RelayCommand<string>(url => Launcher.Launch(url));
 
             // sample initial population (in production load from JSON/DB)
-            Games.Add(new GameItem { Name = "Game 1", Url = "https://www.pragmaticplay.com/en/games/777-rush/?gamelang=en&cur=USD#", Subtitle = "Game 1", ShortName = "MS", AccentBrush = "#FF6EE7B7" });
-            Games.Add(new GameItem { Name = "Game 2", Url = "https://static-stage.contentmedia.eu/ecf3/index.html?gameid=10234&operatorid=44&currency=EU[…]u%2Fcapi&papi=https%3A%2F%2Fpapi-stage.contentmedia.eu", Subtitle = "Game 2", ShortName = "R", AccentBrush = "#FF93C5FD" });
-            Games.Add(new GameItem { Name = "Game 3", Url = "https://games.netent.com/video-slots/gonzos-quest/", Subtitle = "Game 3", ShortName = "BJ", AccentBrush = "#FFFCA5A5" });
+            //Games.Add(new GameItem { Name = "Game 1", Url = "https://www.pragmaticplay.com/en/games/777-rush/?gamelang=en&cur=USD#", Subtitle = "Game 1", ShortName = "MS", AccentBrush = "#FF6EE7B7" });
+            //Games.Add(new GameItem { Name = "Game 2", Url = "https://static-stage.contentmedia.eu/ecf3/index.html?gameid=10234&operatorid=44&currency=EU[…]u%2Fcapi&papi=https%3A%2F%2Fpapi-stage.contentmedia.eu", Subtitle = "Game 2", ShortName = "R", AccentBrush = "#FF93C5FD" });
+            //Games.Add(new GameItem { Name = "Game 3", Url = "https://games.netent.com/video-slots/gonzos-quest/", Subtitle = "Game 3", ShortName = "BJ", AccentBrush = "#FFFCA5A5" });
             // ... add more
+           
+            var list = GamesStore.LoadGames();
+
+            Games = new ObservableCollection<GameItem>(list);
 
             RebuildFiltered();
         }

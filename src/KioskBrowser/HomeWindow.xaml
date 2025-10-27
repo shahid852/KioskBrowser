@@ -7,7 +7,7 @@
          xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
          xmlns:local="clr-namespace:KioskBrowser"
          xmlns:vm="clr-namespace:KioskBrowser.ViewModels"
-         xmlns:ut="clr-namespace:Utility;assembly=Utility"
+         xmlns:ut="clr-namespace:Utility;assembly=UtilWPF"
          Title="Games" WindowState="Maximized" Background="#FF0F1720">
 
     <Window.Resources>
@@ -111,7 +111,7 @@
             </Border>
 
             <!-- Search / Filter area (optional) -->
-            <StackPanel Orientation="Horizontal" Margin="12" DockPanel.Dock="Top" Height="56">
+            <StackPanel Visibility="Collapsed" Orientation="Horizontal" Margin="12" DockPanel.Dock="Top" Height="56">
                 <TextBox Width="320" Height="40" VerticalAlignment="Center" Margin="0,0,12,0" 
                          
                          FontSize="16"
