@@ -3,32 +3,157 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AdminUI"
-        mc:Ignorable="d" xmlns:vm="clr-namespace:AdminUI.ViewModels"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:vm="clr-namespace:AdminUI.ViewModels"
+        mc:Ignorable="d"
+        Title="Kiosk Admin Panel"
+        WindowState="Maximized"
+        Background="#FF0F1720" 
+        FontFamily="Segoe UI">
+
     <Window.DataContext>
         <vm:AdminPanelViewModel />
     </Window.DataContext>
 
-    <DockPanel>
+    <Window.Resources>
+
+        <!-- Toolbar button style -->
+        <Style x:Key="KioskButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="Margin" Value="8,0,8,0"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            
+            <Setter Property="Background" Value="#FF1E293B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF334155"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF334155"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DataGrid cell style -->
+        <Style x:Key="CenterCellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="#FFE5E7EB"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderBrush" Value="#FF1E293B"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <!-- Text trimming style for TextBlock -->
+        <Style x:Key="TextBlockEllipsisStyle" TargetType="TextBlock">
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#FFE5E7EB"/>
+        </Style>
+
+        <!-- Header style -->
+        <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#FF1F2937"/>
+            <Setter Property="Foreground" Value="#FFCBD5E1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#FF334155"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+
         <!-- Toolbar -->
-        <ToolBar DockPanel.Dock="Top" Padding="8">
-            <Button Content="Add Game" Command="{Binding AddGameCommand}" Margin="6"/>
-            <Button Content="Remove Selected" Command="{Binding RemoveGameCommand}" Margin="6"/>
-            <Separator/>
-            <Button Content="Save + Restart Kiosk" Command="{Binding SaveAndRestartCommand}" Margin="6" />
-        </ToolBar>
+        <Border DockPanel.Dock="Top" Background="#FF0B1220" Padding="5"  Height="55">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="➕ Add Game "
+                        Command="{Binding AddGameCommand}"
+                        Style="{StaticResource KioskButtonStyle}" />
+
+                <Button Content="🗑 Remove Selected "
+                        Command="{Binding RemoveGameCommand}"
+                        Style="{StaticResource KioskButtonStyle}" />
+
+                <Button Content="💾 Save &amp; Restart Kiosk "
+                        Command="{Binding SaveAndRestartCommand}"
+                        Style="{StaticResource KioskButtonStyle}" />
+            </StackPanel>
+        </Border>
 
         <!-- Editable grid -->
-        <Grid Margin="12">
-            <DataGrid ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+        <Grid Margin="16" >
+            <DataGrid ItemsSource="{Binding Games}"
+                      SelectedItem="{Binding SelectedGame, Mode=TwoWay}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      RowHeight="44"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="All"
+                      Background="#FF0F1720"
+                      BorderBrush="#FF1E293B"
+                      Foreground="White"
+                      FontSize="16"
+                      RowBackground="#FF1F2937"
+                      AlternatingRowBackground="#FF111827"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}">
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay}" Width="2*" />
-                    <DataGridTextColumn Header="Subtitle" Binding="{Binding Subtitle, Mode=TwoWay}" Width="1.5*" />
-                    <DataGridTextColumn Header="ShortName" Binding="{Binding ShortName, Mode=TwoWay}" Width="0.6*" />
-                    <DataGridTextColumn Header="Url" Binding="{Binding Url, Mode=TwoWay}" Width="3*" />
-                    <DataGridTextColumn Header="IconPath" Binding="{Binding IconPath, Mode=TwoWay}" Width="2*" />
-                    <DataGridTextColumn Header="AccentBrush" Binding="{Binding AccentBrush, Mode=TwoWay}" Width="1*" />
+                    <DataGridTextColumn Header="Name"
+                                        Binding="{Binding Name, Mode=TwoWay}"
+                                        Width="2*"
+                                        CellStyle="{StaticResource CenterCellStyle}" />
+
+                    <DataGridTextColumn Header="Subtitle"
+                                        Binding="{Binding Subtitle, Mode=TwoWay}"
+                                        Width="1.5*"
+                                        CellStyle="{StaticResource CenterCellStyle}" />
+
+                    <DataGridTextColumn Header="ShortName"
+                                        Binding="{Binding ShortName, Mode=TwoWay}"
+                                        Width="0.7*"
+                                        CellStyle="{StaticResource CenterCellStyle}" />
+
+                    <DataGridTextColumn Header="Url"
+                                        Binding="{Binding Url, Mode=TwoWay}"
+                                        Width="3*"
+                                        CellStyle="{StaticResource CenterCellStyle}"
+                                        ElementStyle="{StaticResource TextBlockEllipsisStyle}" />
+
+                    <DataGridTextColumn Header="IconPath"
+                                        Binding="{Binding IconPath, Mode=TwoWay}"
+                                        Width="2*"
+                                        CellStyle="{StaticResource CenterCellStyle}" />
+
+                    <DataGridTextColumn Header="AccentBrush"
+                                        Binding="{Binding AccentBrush, Mode=TwoWay}"
+                                        Width="1*"
+                                        CellStyle="{StaticResource CenterCellStyle}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

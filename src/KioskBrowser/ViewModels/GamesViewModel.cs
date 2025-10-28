@@ -81,13 +81,16 @@ namespace KioskBrowser.ViewModels
             try
             {
                 // For kioskbrowser.exe with url as single quoted parameter:
-                var exe = "kioskbrowser.exe";
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = exe,
-                    Arguments = $"\"{url}\"",
-                    UseShellExecute = true
-                });
+                //var exe = "kioskbrowser.exe";
+                //System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                //{
+                //    FileName = exe,
+                //    Arguments = $"\"{url}\"",
+                //    UseShellExecute = true
+                //});
+
+                var window = new MainWindow();
+                window.Show();
             }
             catch (Exception ex)
             {

@@ -22,8 +22,40 @@
     <ui:FluentWindow.TaskbarItemInfo>
         <TaskbarItemInfo Overlay="{Binding TaskbarOverlayImage}" Description="Kiosk Browser" />
     </ui:FluentWindow.TaskbarItemInfo>
+    <StackPanel>
+        <Grid>
+            <!-- Header -->
+            <DockPanel LastChildFill="True">
+                <Border Height="72" Background="#FF0B1220" DockPanel.Dock="Top" Padding="16">
+                    <TextBlock Text="Games" FontSize="28" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+                </Border>
 
-    <Border BorderThickness="2">
+                <!-- Search / Filter area (optional) -->
+                <StackPanel Visibility="Collapsed" Orientation="Horizontal" Margin="12" DockPanel.Dock="Top" Height="56">
+                    <TextBox Width="320" Height="40" VerticalAlignment="Center" Margin="0,0,12,0" 
+                     
+                     FontSize="16"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ComboBox Width="160" Height="40" VerticalAlignment="Center" SelectedItem="{Binding SelectedCategory}">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Slots</ComboBoxItem>
+                        <ComboBoxItem>Table</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Scrollable wrap of large buttons -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="12">
+                    <ItemsControl ItemsSource="{Binding FilteredGames}" ItemTemplate="{StaticResource GameItemTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True" Orientation="Horizontal" ItemWidth="260" ItemHeight="200" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </Grid>
+        <Border Visibility="Collapsed" BorderThickness="2">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -51,9 +83,12 @@
             </ui:TitleBar>
 
             <Frame Grid.Row="1" x:Name="MainFrame" Height="Auto" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" />
-            
-            <!-- <wpf:WebView2 Grid.Row="1" Name="WebView" /> -->
+
+            <!--<wpf:WebView2 Grid.Row="1" Name="WebView" NavigationCompleted="WebView_NavigationCompleted" />-->
 
         </Grid>
     </Border>
+    </StackPanel>
+    
+    
 </ui:FluentWindow>

@@ -1,11 +1,12 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KioskBrowser.Common;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
+using System.IO;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using static System.Net.WebRequestMethods;
 
 namespace KioskBrowser;
 
@@ -67,6 +68,31 @@ public partial class MainViewModel(Action close, NavigationService navigationSer
         RegisterPages();
         
         _webView.Loaded += async (_, _) => await InitializeWebView();
+        _webView.NavigationCompleted += _webView_NavigationCompleted;
+    }
+
+    private async void _webView_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
+    {
+        try
+        {
+            // Wait a bit to ensure dynamic content has loaded
+            await Task.Delay(3000);
+
+            string js = @"
+            const fsButton = document.querySelector('.fullscreen-button, [aria-label=""Full screen""]');
+            if (fsButton) {
+                fsButton.click();
+            } else {
+                console.log('Fullscreen button not found');
+            }
+        ";
+
+            await _webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("[ERROR] Failed to enter fullscreen: " + ex.Message);
+        }
     }
 
     private async Task InitializeWebView()

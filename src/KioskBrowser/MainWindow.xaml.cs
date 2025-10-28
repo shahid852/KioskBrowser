@@ -56,4 +56,9 @@ public partial class MainWindow
 
         SetAppUserModelId(hwnd, "KioskBrowser" + Guid.NewGuid());
     }
+
+    //private void WebView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+    //{
+
+    //}
 }

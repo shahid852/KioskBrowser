@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 
 namespace Utility
 {
@@ -8,9 +9,15 @@ namespace Utility
     {
         public static string GetGamesFilePath()
         {
-            var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "KioskBrowser");
+            var dir = Path.Combine(UtilWPF.Properties.Settings.Default.SettingsPath);
             Directory.CreateDirectory(dir);
             return Path.Combine(dir, "games.json"); // C:\ProgramData\KioskBrowser\games.json
+        }
+        public static string GetConfigFolder()
+        {
+            var dir = Path.Combine(UtilWPF.Properties.Settings.Default.SettingsPath);
+            Directory.CreateDirectory(dir);
+            return Path.Combine(dir); // C:\ProgramData\KioskBrowser\games.json
         }
         public static void ForceRestartKiosk()
         {
