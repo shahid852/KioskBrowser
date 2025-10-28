@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:AdminUI.ViewModels"
         mc:Ignorable="d"
         Title="Kiosk Admin Panel"
-        WindowState="Maximized"
+        
         Background="#FF0F1720" 
         FontFamily="Segoe UI">
 

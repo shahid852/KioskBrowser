@@ -1,6 +1,8 @@
 ﻿using System.Windows.Interop;
 using CommandLine;
+using System.Windows;
 using static KioskBrowser.Native.ShellHelper;
+
 
 namespace KioskBrowser;
 
@@ -23,6 +25,11 @@ public partial class MainWindow
 
         InitializeComponent();
 
+        WindowStyle = WindowStyle.None;
+        this.ResizeMode = ResizeMode.NoResize;
+        this.WindowState = WindowState.Maximized;
+        this.Topmost = true;
+        
         Loaded += async (_, _) =>
         {
             await _viewModel.CheckForUpdateAsync();
@@ -71,8 +78,8 @@ public partial class MainWindow
         SetAppUserModelId(hwnd, "KioskBrowser" + Guid.NewGuid());
     }
 
-    //private void WebView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
-    //{
+    private void WebView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+    {
 
-    //}
+    }
 }
