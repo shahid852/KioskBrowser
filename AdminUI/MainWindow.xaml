@@ -100,6 +100,10 @@
                 <Button Content="💾 Save &amp; Restart Kiosk "
                         Command="{Binding SaveAndRestartCommand}"
                         Style="{StaticResource KioskButtonStyle}" />
+
+                <Button Content="🔑 Change PIN " HorizontalAlignment="Right" Click="ChangePin_Click" 
+                        Style="{StaticResource KioskButtonStyle}" />
+
             </StackPanel>
         </Border>
 

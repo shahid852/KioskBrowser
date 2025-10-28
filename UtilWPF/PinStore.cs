@@ -119,7 +119,28 @@ namespace AdminUI.Security
                     System.Windows.MessageBoxImage.Error);
             }
         }
+        public static async Task<bool> ChangePinAsync(string oldPin, string newPin)
+        {
+            try
+            {
+                if (!await VerifyPinAsync(oldPin).ConfigureAwait(false))
+                    return false;
 
+                var newHash = ComputeHash(newPin);
+                var data = new PinData { PinHash = newHash };
+                var options = new JsonSerializerOptions { WriteIndented = true };
+
+                using var fs = new FileStream(PinFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await JsonSerializer.SerializeAsync(fs, data, options).ConfigureAwait(false);
+                await fs.FlushAsync().ConfigureAwait(false);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         private static string ComputeHash(string input)
         {
             using var sha = SHA256.Create();

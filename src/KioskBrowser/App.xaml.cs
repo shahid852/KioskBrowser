@@ -15,6 +15,8 @@ namespace KioskBrowser;
 
 public partial class App
 {
+  
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
