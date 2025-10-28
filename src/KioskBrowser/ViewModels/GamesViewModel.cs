@@ -75,6 +75,7 @@ namespace KioskBrowser.ViewModels
     // Sample launcher; in production adapt to your kioskbrowser logic and single-instance behavior
     public static class Launcher
     {
+        public static MainWindow window { get; set; }
         public static void Launch(string url)
         {
             if (string.IsNullOrWhiteSpace(url)) return;
@@ -88,8 +89,9 @@ namespace KioskBrowser.ViewModels
                 //    Arguments = $"\"{url}\"",
                 //    UseShellExecute = true
                 //});
+                if (window is not null) window.Close();
 
-                var window = new MainWindow();
+                window = new MainWindow(url);
                 window.Show();
             }
             catch (Exception ex)

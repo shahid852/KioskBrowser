@@ -8,15 +8,19 @@ public partial class MainWindow
 {
     private readonly MainViewModel _viewModel;
     private readonly NavigationService _navigationService;
-
-    public MainWindow()
+    private bool _customURLProvided = false;
+    private readonly string _customURL = "";
+    
+    public MainWindow(string customURL = "")
     {
+        _customURLProvided = customURL != "";
+        _customURL = customURL;
         _navigationService = new NavigationService();
         var storeService = new StoreService();
-        
+
         _viewModel = new MainViewModel(Close, _navigationService, storeService);
         DataContext = _viewModel;
-        
+
         InitializeComponent();
 
         Loaded += async (_, _) =>
@@ -30,15 +34,25 @@ public partial class MainWindow
         base.OnInitialized(e);
 
         _navigationService.SetNavigationFrame(MainFrame);
+        ParseCommandLine(_customURLProvided, _customURL);
         
-        ParseCommandLine();
+
     }
 
-    private void ParseCommandLine()
+    private void ParseCommandLine(bool skipCmdArgs = false, string url = "")
     {
-        var args = Environment.GetCommandLineArgs().Skip(1);
-        Parser.Default.ParseArguments<Options>(args)
-            .WithParsed(o => _viewModel.Initialize(o));
+        if (skipCmdArgs)
+        {
+            Options o = new();
+            o.Url = url;
+            _viewModel.Initialize(o);
+        }
+        else
+        {
+            var args = Environment.GetCommandLineArgs().Skip(1);
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(o => _viewModel.Initialize(o));
+        }
     }
 
     protected override void OnContentRendered(EventArgs e)

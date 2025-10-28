@@ -19,6 +19,13 @@ namespace Utility
             Directory.CreateDirectory(dir);
             return Path.Combine(dir); // C:\ProgramData\KioskBrowser\games.json
         }
+        public static string GetKioskExe()
+        {
+            var dir = Path.Combine(UtilWPF.Properties.Settings.Default.KioskBrowserPath);
+            Directory.CreateDirectory(dir);
+            return Path.Combine(dir, "kioskbrowser.exe"); // C:\ProgramData\KioskBrowser\games.json
+        }
+
         public static void ForceRestartKiosk()
         {
             foreach (var p in Process.GetProcessesByName("kioskbrowser"))

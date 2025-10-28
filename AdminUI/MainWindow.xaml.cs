@@ -10,7 +10,6 @@ namespace AdminUI
     {
         public MainWindow()
         {
-
             InitializeComponent();
             AskForPIN();
         }

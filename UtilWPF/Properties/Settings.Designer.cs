@@ -31,5 +31,17 @@ namespace UtilWPF.Properties {
                 return ((string)(this["SettingsPath"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\P\\source\\repos\\shahid852\\KioskBrowser\\src\\KioskBrowser\\bin\\x64\\Debug")]
+        public string KioskBrowserPath {
+            get {
+                return ((string)(this["KioskBrowserPath"]));
+            }
+            set {
+                this["KioskBrowserPath"] = value;
+            }
+        }
     }
 }

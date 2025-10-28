@@ -5,5 +5,8 @@
     <Setting Name="SettingsPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\ProgramData\KioskBrowser</Value>
     </Setting>
+    <Setting Name="KioskBrowserPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\P\source\repos\shahid852\KioskBrowser\src\KioskBrowser\bin\x64\Debug</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

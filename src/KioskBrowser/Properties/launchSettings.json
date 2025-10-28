@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "KioskBrowser": {
+      "commandName": "Project",
+      "commandLineArgs": "https://google.com",
+      "nativeDebugging": true
+    }
+  }
+}
