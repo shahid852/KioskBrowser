@@ -11,7 +11,7 @@ namespace AdminUI.ViewModels
     {
         // Change these to match where kioskbrowser is installed
         private const string KioskExeName = "kioskbrowser"; // process name without .exe
-        private string KioskExePath = Helpers.GetKioskExe(); 
+        private string KioskExePath = Utility.Helpers.GetKioskExe(); 
             //@"C:\Users\P\source\repos\KioskBrowser\src\KioskBrowser\bin\x64\Debug\kioskbrowser.exe"; //@"C:\Program Files\KioskBrowser\kioskbrowser.exe";
 
         private static readonly string LogPath = Path.Combine(

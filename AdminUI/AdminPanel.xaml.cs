@@ -1,4 +1,5 @@
 ﻿using AdminUI.Security;
+using Helpers;
 using System.Windows;
 
 namespace AdminUI
@@ -11,6 +12,7 @@ namespace AdminUI
         public AdminPanel()
         {
             InitializeComponent();
+            DataInitializer.EnsureProgramData();
             AskForPIN();
         }
         private async void ChangePin_Click(object sender, RoutedEventArgs e)
