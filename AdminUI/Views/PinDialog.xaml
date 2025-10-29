@@ -4,7 +4,7 @@
         Title="Enter Admin PIN"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
-        ResizeMode="NoResize"
+        ResizeMode="NoResize" Topmost="True"
         Height="180" Width="320">
     <Grid Margin="20">
         <Grid.RowDefinitions>

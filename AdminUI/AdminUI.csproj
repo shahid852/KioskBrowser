@@ -14,10 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\Data\KioskBrowser\games.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\Data\KioskBrowser\pin.json">
+    <None Update="Assets\Data\games.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

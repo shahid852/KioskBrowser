@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:AdminUI.ViewModels"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         Title="Kiosk Admin Panel"
         
         Background="#FF0F1720" 
@@ -97,7 +97,7 @@
                         Command="{Binding RemoveGameCommand}"
                         Style="{StaticResource KioskButtonStyle}" />
 
-                <Button Content="💾 Save &amp; Restart Kiosk "
+                <Button Content="💾 Save "
                         Command="{Binding SaveAndRestartCommand}"
                         Style="{StaticResource KioskButtonStyle}" />
 

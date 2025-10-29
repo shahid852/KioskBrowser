@@ -11,7 +11,7 @@ namespace AdminUI.ViewModels
     {
         // Change these to match where kioskbrowser is installed
         private const string KioskExeName = "kioskbrowser"; // process name without .exe
-        private string KioskExePath = Utility.Helpers.GetKioskExe(); 
+        //private string KioskExePath = Utility.Helpers.GetKioskExe(); 
             //@"C:\Users\P\source\repos\KioskBrowser\src\KioskBrowser\bin\x64\Debug\kioskbrowser.exe"; //@"C:\Program Files\KioskBrowser\kioskbrowser.exe";
 
         private static readonly string LogPath = Path.Combine(
@@ -91,15 +91,16 @@ namespace AdminUI.ViewModels
         {
             try
             {
-                Log("Save & Restart requested.");
+                Log("Save");// & Restart requested.");
 
                 // Ask user to confirm
-                var res = MessageBox.Show("Save changes and restart KioskBrowser now?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (res != MessageBoxResult.Yes)
-                {
-                    Log("User cancelled Save & Restart.");
-                    return;
-                }
+                //var res = MessageBox.Show("Save changes?"//and restart KioskBrowser now?"
+                //                                         , "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                //if (res != MessageBoxResult.Yes)
+                //{
+                //    Log("User cancelled Save");
+                //    return;
+                //}
 
                 // Save (atomic inside GamesStore)
                 Log($"Saving {Games.Count} games to disk...");
@@ -107,23 +108,23 @@ namespace AdminUI.ViewModels
                 Log("Save completed.");
 
                 // Restart kiosk (force restart: kill then start)
-                Log("Attempting kiosk restart...");
-                var ok = await RestartKioskAsync().ConfigureAwait(false);
+                //Log("Attempting kiosk restart...");
+                //var ok = await RestartKioskAsync().ConfigureAwait(false);
 
                 // Show result (marshal to UI)
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (ok)
-                    {
-                        MessageBox.Show("Saved changes and restarted KioskBrowser successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Log("Kiosk restarted successfully.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Saved changes, but failed to restart KioskBrowser. See log for details.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        Log("WARNING: Kiosk restart reported failure.");
-                    }
-                });
+                //Application.Current.Dispatcher.Invoke(() =>
+                //{
+                //    if (ok)
+                //    {
+                //        MessageBox.Show("Saved changes and restarted KioskBrowser successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                //        Log("Kiosk restarted successfully.");
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Saved changes, but failed to restart KioskBrowser. See log for details.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                //        Log("WARNING: Kiosk restart reported failure.");
+                //    }
+                //});
             }
             catch (Exception ex)
             {
@@ -134,66 +135,66 @@ namespace AdminUI.ViewModels
             }
         }
 
-        private Task<bool> RestartKioskAsync()
-        {
-            return Task.Run(() =>
-            {
-                try
-                {
-                    // Kill existing processes by name
-                    var running = Process.GetProcessesByName(KioskExeName);
-                    if (running.Length > 0)
-                    {
-                        foreach (var p in running)
-                        {
-                            try
-                            {
-                                Log($"Killing process Id={p.Id}");
-                                p.Kill(); // use Kill(true) on .NET 5+ if you want tree kill
-                                p.WaitForExit(3000);
-                                Log($"Killed {p.Id}");
-                            }
-                            catch (Exception exKill)
-                            {
-                                Log($"Failed to kill {p.Id}: {exKill}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Log("No running kioskbrowser processes found.");
-                    }
+        //private Task<bool> RestartKioskAsync()
+        //{
+        //    return Task.Run(() =>
+        //    {
+        //        try
+        //        {
+        //            // Kill existing processes by name
+        //            var running = Process.GetProcessesByName(KioskExeName);
+        //            if (running.Length > 0)
+        //            {
+        //                foreach (var p in running)
+        //                {
+        //                    try
+        //                    {
+        //                        Log($"Killing process Id={p.Id}");
+        //                        p.Kill(); // use Kill(true) on .NET 5+ if you want tree kill
+        //                        p.WaitForExit(3000);
+        //                        Log($"Killed {p.Id}");
+        //                    }
+        //                    catch (Exception exKill)
+        //                    {
+        //                        Log($"Failed to kill {p.Id}: {exKill}");
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                Log("No running kioskbrowser processes found.");
+        //            }
 
-                    // Start new process
-                    var psi = new ProcessStartInfo
-                    {
-                        FileName = KioskExePath,
-                        UseShellExecute = true,
-                        WorkingDirectory = Path.GetDirectoryName(KioskExePath) ?? Environment.CurrentDirectory
-                    };
+        //            // Start new process
+        //            var psi = new ProcessStartInfo
+        //            {
+        //                FileName = KioskExePath,
+        //                UseShellExecute = true,
+        //                WorkingDirectory = Path.GetDirectoryName(KioskExePath) ?? Environment.CurrentDirectory
+        //            };
 
-                    Process.Start(psi);
-                    Log($"Started new process using '{psi.FileName}'.");
+        //            Process.Start(psi);
+        //            Log($"Started new process using '{psi.FileName}'.");
 
-                    // Quick verification
-                    var sw = Stopwatch.StartNew();
-                    while (sw.ElapsedMilliseconds < 3000)
-                    {
-                        var exists = Process.GetProcessesByName(KioskExeName).Any();
-                        if (exists) return true;
-                        Task.Delay(200).Wait();
-                    }
+        //            // Quick verification
+        //            var sw = Stopwatch.StartNew();
+        //            while (sw.ElapsedMilliseconds < 3000)
+        //            {
+        //                var exists = Process.GetProcessesByName(KioskExeName).Any();
+        //                if (exists) return true;
+        //                Task.Delay(200).Wait();
+        //            }
 
-                    Log("Warning: New kioskbrowser process not detected within timeout.");
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Log($"RestartKioskAsync failed: {ex}");
-                    return false;
-                }
-            });
-        }
+        //            Log("Warning: New kioskbrowser process not detected within timeout.");
+        //            return false;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Log($"RestartKioskAsync failed: {ex}");
+        //            return false;
+        //        }
+        //    });
+        //}
 
         private static void Log(string message)
         {

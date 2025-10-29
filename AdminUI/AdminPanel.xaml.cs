@@ -11,8 +11,9 @@ namespace AdminUI
     {
         public AdminPanel()
         {
-            InitializeComponent();
             DataInitializer.EnsureProgramData();
+            InitializeComponent();
+
             AskForPIN();
         }
         private async void ChangePin_Click(object sender, RoutedEventArgs e)
