@@ -8,7 +8,7 @@
          xmlns:local="clr-namespace:KioskBrowser"
          xmlns:vm="clr-namespace:KioskBrowser.ViewModels"
          xmlns:ut="clr-namespace:Utility;assembly=UtilWPF" KeyDown="OnKeyDown"
-         Title="Games" WindowState="Maximized" Background="#FF0F1720">
+         Title="Games" Background="#FF0F1720">
 
     <Window.Resources>
         <!-- Model -> ViewModel friendly converter: returns Visibility.Collapsed if no icon -->

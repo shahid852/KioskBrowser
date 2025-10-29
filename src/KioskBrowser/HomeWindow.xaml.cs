@@ -23,18 +23,18 @@ namespace KioskBrowser
             DataContext = vm;
         }
 
-        private bool _isFullScreen = false;
-        private WindowState _previousWindowState;
-        private WindowStyle _previousWindowStyle;
-        private ResizeMode _previousResizeMode;
+        private bool _isFullScreen = true;
+        //private WindowState _previousWindowState;
+        //private WindowStyle _previousWindowStyle;
+        //private ResizeMode _previousResizeMode;
 
         private void ToggleFullScreen()
         {
             if (!_isFullScreen)
             {
-                _previousWindowState = this.WindowState;
-                _previousWindowStyle = this.WindowStyle;
-                _previousResizeMode = this.ResizeMode;
+                //_previousWindowState = this.WindowState;
+                //_previousWindowStyle = this.WindowStyle;
+                //_previousResizeMode = this.ResizeMode;
 
                 this.WindowStyle = WindowStyle.None;
                 this.ResizeMode = ResizeMode.NoResize;
@@ -45,9 +45,10 @@ namespace KioskBrowser
             }
             else
             {
-                this.WindowStyle = _previousWindowStyle;
-                this.ResizeMode = _previousResizeMode;
-                this.WindowState = _previousWindowState;
+
+                this.WindowStyle = WindowStyle.ThreeDBorderWindow;
+                this.ResizeMode = ResizeMode.CanResize;
+                this.WindowState = WindowState.Maximized;
                 this.Topmost = false;
 
                 _isFullScreen = false;

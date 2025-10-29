@@ -9,7 +9,7 @@
                  WindowBackdropType="Mica"
                  ExtendsContentIntoTitleBar="True"
                  WindowCornerPreference="Round"
-                 WindowStyle="None" Topmost="True"
+                 Topmost="True"
                  WindowState="Maximized"
                  Title="{Binding Title}"
                  WindowStartupLocation="CenterScreen"
