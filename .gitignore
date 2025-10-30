@@ -457,3 +457,4 @@ $RECYCLE.BIN/
 ## Swift Kiosk Browser
 ##
 build/KioskBrowser
+/installer/Output
