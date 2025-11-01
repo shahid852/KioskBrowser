@@ -1,0 +1,56 @@
+[
+  {
+    "Name": "NorskTipping",
+    "Subtitle": "",
+    "Url": " https://www.norsktipping.no",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  },
+  {
+    "Name": "HappySpins",
+    "Subtitle": "",
+    "Url": "https://www.happyspins.com",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  },
+  {
+    "Name": "Pragmatic 777",
+    "Subtitle": "",
+    "Url": "https://www.pragmaticplay.com/en/games/777-rush/?gamelang=en\u0026cur=USD#",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  },
+  {
+    "Name": "Papi",
+    "Subtitle": "",
+    "Url": "https://static-stage.contentmedia.eu/ecf3/index.html?gameid=10234\u0026operatorid=44\u0026currency=EUR\u0026mode=demo\u0026device=desktop\u0026gamename=pirots4\u0026language=en_gb\u0026xdm=1\u0026capi=https%3A%2F%2Fgc5-stage.contentmedia.eu%2Fcapi\u0026papi=https%3A%2F%2Fpapi-stage.contentmedia.eu",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  },
+  {
+    "Name": "Cabinet",
+    "Subtitle": "",
+    "Url": "https://www.skillgamefun.com/product/slot-machine-43-inch-touch-curved-screen-link-games-cabinet-skill-games-machine-cabinet/",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  },
+  {
+    "Name": "Netent",
+    "Subtitle": "",
+    "Url": "https://games.netent.com/video-slots/gonzos-quest/",
+    "IconPath": "",
+    "ShortName": "NG",
+    "AccentBrush": "#FF374151",
+    "Description": null
+  }
+]

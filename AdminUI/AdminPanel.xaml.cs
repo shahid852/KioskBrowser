@@ -11,7 +11,7 @@ namespace AdminUI
     {
         public AdminPanel()
         {
-            DataInitializer.EnsureProgramData();
+            //DataInitializer.EnsureProgramData();
             InitializeComponent();
 
             AskForPIN();

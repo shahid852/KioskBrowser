@@ -22,6 +22,9 @@
   <ItemGroup>
     <None Remove="Images\app.png" />
     <Resource Include="Images\app.png" />
+    <None Update="Assets\Data\games.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="readme.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

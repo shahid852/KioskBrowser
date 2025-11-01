@@ -7,7 +7,7 @@ namespace Utility
 {
     public static class Helpers
     {
-        public static string ProgramData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "KioskBrowser");
+        public static string ProgramData = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data"); //Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "KioskBrowser");
         public static string GetGamesFilePath()
         {
             var dir = ProgramData;

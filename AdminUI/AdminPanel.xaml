@@ -55,6 +55,7 @@
         <!-- DataGrid cell style -->
         <Style x:Key="CenterCellStyle" TargetType="DataGridCell">
             <Setter Property="Padding" Value="10,6"/>
+            
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="Foreground" Value="#FFE5E7EB"/>
@@ -114,7 +115,7 @@
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       CanUserDeleteRows="False"
-                      RowHeight="44"
+                      RowHeight="44" VerticalContentAlignment="Center"
                       HeadersVisibility="Column"
                       GridLinesVisibility="All"
                       Background="#FF0F1720"
@@ -122,7 +123,7 @@
                       Foreground="White"
                       FontSize="16"
                       RowBackground="#FF1F2937"
-                      AlternatingRowBackground="#FF111827"
+                      AlternatingRowBackground="#FF111847"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       ColumnHeaderStyle="{StaticResource DataGridHeaderStyle}">
@@ -131,16 +132,19 @@
                     <DataGridTextColumn Header="Name"
                                         Binding="{Binding Name, Mode=TwoWay}"
                                         Width="2*"
+                                        ElementStyle="{StaticResource TextBlockEllipsisStyle}"
                                         CellStyle="{StaticResource CenterCellStyle}" />
 
                     <DataGridTextColumn Header="Subtitle"
                                         Binding="{Binding Subtitle, Mode=TwoWay}"
                                         Width="1.5*"
+                                        ElementStyle="{StaticResource TextBlockEllipsisStyle}"
                                         CellStyle="{StaticResource CenterCellStyle}" />
 
                     <DataGridTextColumn Header="ShortName"
                                         Binding="{Binding ShortName, Mode=TwoWay}"
                                         Width="0.7*"
+                                        ElementStyle="{StaticResource TextBlockEllipsisStyle}"
                                         CellStyle="{StaticResource CenterCellStyle}" />
 
                     <DataGridTextColumn Header="Url"
@@ -157,6 +161,7 @@
                     <DataGridTextColumn Header="AccentBrush"
                                         Binding="{Binding AccentBrush, Mode=TwoWay}"
                                         Width="1*"
+                                        ElementStyle="{StaticResource TextBlockEllipsisStyle}"
                                         CellStyle="{StaticResource CenterCellStyle}" />
                 </DataGrid.Columns>
             </DataGrid>

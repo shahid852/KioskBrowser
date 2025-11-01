@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using System.Windows;
 
 namespace Helpers
 {
     public static class DataInitializer
     {
-        private static readonly string SourcePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Data");
+        private static readonly string SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "Data");
         private static readonly string TargetPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "KioskBrowser");
 
         public static void EnsureProgramData()
