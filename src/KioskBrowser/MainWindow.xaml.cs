@@ -28,7 +28,7 @@ public partial class MainWindow
         WindowStyle = WindowStyle.None;
         this.ResizeMode = ResizeMode.NoResize;
         this.WindowState = WindowState.Maximized;
-        this.Topmost = true;
+        this.Topmost = false;
         
         Loaded += async (_, _) =>
         {

@@ -6,8 +6,10 @@
       xmlns:local="clr-namespace:KioskBrowser"
       xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
       mc:Ignorable="d"
-    
+     ShowsNavigationUI="False"
+       HorizontalAlignment="Stretch"
       Title="BrowserPage" >
-    <ContentControl Content="{Binding WebView}"/>
+    <ContentPresenter HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"  Content="{Binding WebView}"/>
     
 </Page>

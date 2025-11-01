@@ -9,9 +9,9 @@
                  WindowBackdropType="Mica"
                  ExtendsContentIntoTitleBar="True"
                  WindowCornerPreference="Round"
-                 Topmost="True"
+                 Topmost="False"
                  WindowState="Maximized"
-                 Title="{Binding Title}"
+                 Title="{Binding Title}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"
                  WindowStartupLocation="CenterScreen"
                  MinHeight="150" MinWidth="200">
 

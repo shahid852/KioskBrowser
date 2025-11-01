@@ -72,6 +72,9 @@ public partial class MainViewModel(Action close, NavigationService navigationSer
             SetIcons(Url);
 
             RegisterPages();
+            _webView.HorizontalAlignment = HorizontalAlignment.Stretch;
+            _webView.VerticalAlignment = VerticalAlignment.Stretch;
+            _webView.Margin = new Thickness(0);
 
             _webView.Loaded += async (_, _) => await InitializeWebView();
             _webView.NavigationCompleted += _webView_NavigationCompleted;
