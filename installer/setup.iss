@@ -19,8 +19,10 @@ UninstallDisplayIcon={app}\KioskBrowser.exe
 ; Include all EXEs and dependencies
 Source: "..\AdminUI\bin\x64\Release\net8.0-windows\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\src\KioskBrowser\bin\x64\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
 [Dirs]
 Name: "{app}\Assets\Data"; Permissions: users-full
+
 [Icons]
 ; Start Menu shortcuts
 Name: "{autoprograms}\Kiosk Suite\Kiosk Browser"; Filename: "{app}\KioskBrowser.exe"
@@ -31,14 +33,17 @@ Name: "{autodesktop}\Kiosk Browser"; Filename: "{app}\KioskBrowser.exe"; Tasks: 
 Name: "{autodesktop}\Kiosk Admin Panel"; Filename: "{app}\AdminUI.exe"; Tasks: desktopicon
 
 [Registry]
-; (Optional) Store install paths for your admin panel
+; Store install paths for admin panel
 Root: HKLM; Subkey: "SOFTWARE\KioskSuite"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
 Root: HKLM; Subkey: "SOFTWARE\KioskSuite"; ValueType: string; ValueName: "KioskBrowserPath"; ValueData: "{app}\KioskBrowser.exe"
 Root: HKLM; Subkey: "SOFTWARE\KioskSuite"; ValueType: string; ValueName: "AdminUIPath"; ValueData: "{app}\AdminUI.exe"
+
+; (Optional) Disable Edge Swipe when uncommented below
+Root: HKLM; Subkey: "SOFTWARE\Policies\Microsoft\Windows\EdgeUI"; ValueType: dword; ValueName: "DisableEdgeSwipe"; ValueData: 1; Flags: uninsdeletekey
 
 [Tasks]
 Name: "desktopicon"; Description: "Create desktop shortcuts"; GroupDescription: "Additional Icons:"; Flags: unchecked
 
 [Run]
-; Optional: Auto-launch Admin Panel after installation
+; Auto-launch Admin Panel after installation
 Filename: "{app}\AdminUI.exe"; Description: "Launch Admin Panel"; Flags: nowait postinstall skipifsilent

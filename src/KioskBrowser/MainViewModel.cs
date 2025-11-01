@@ -120,7 +120,7 @@ public partial class MainViewModel(Action close, NavigationService navigationSer
         if (_webView.CoreWebView2 == null)
             throw new Exception("Failed to initialize WebView control. Please restart application.");
 
-        _ = InitWebViewAsyncOLD();
+        _ = InitWebViewAsyncNEW();
         //_ = InitWebViewAutoDetectAsync();
 
         _webView.CoreWebView2.DocumentTitleChanged += (_, _) =>
@@ -150,8 +150,7 @@ public partial class MainViewModel(Action close, NavigationService navigationSer
     }
     private async Task InitWebViewAsyncOLD()
     {
-        // Ensure WebView2 initialized
-        //await _webView.EnsureCoreWebView2Async();
+      
 
         // 1) Set the User-Agent to a Firefox mobile string
         string firefoxMobileUA = "Mozilla/5.0 (Android 13; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0";
@@ -209,6 +208,52 @@ public partial class MainViewModel(Action close, NavigationService navigationSer
         // If you changed the UA after a page was already loaded, consider Reload:
         // _webView.CoreWebView2.Reload();
     }
+
+    private async Task InitWebViewAsyncNEW()
+    {
+        // Wait for WebView2 to be ready
+        await _webView.EnsureCoreWebView2Async();
+
+        // 🔹 Use a mobile User-Agent (unchanged)
+        string firefoxMobileUA = "Mozilla/5.0 (Android 13; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0";
+        _webView.CoreWebView2.Settings.UserAgent = firefoxMobileUA;
+
+        // 🔹 Inject mobile viewport script (unchanged)
+        string injectViewportMeta = @"
+    (function() {
+      if (!document.querySelector('meta[name=viewport]')) {
+        var m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0';
+        document.head.appendChild(m);
+      }
+    })();";
+        await _webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(injectViewportMeta);
+
+        // ✅ Get real screen resolution (instead of fixed values)
+        var screenWidth = (int)SystemParameters.PrimaryScreenWidth;
+        var screenHeight = (int)SystemParameters.PrimaryScreenHeight;
+
+        var deviceMetrics = new
+        {
+            width = screenWidth,
+            height = screenHeight,
+            deviceScaleFactor = 3.0,
+            mobile = true
+        };
+        string deviceMetricsJson = System.Text.Json.JsonSerializer.Serialize(deviceMetrics);
+        await _webView.CoreWebView2.CallDevToolsProtocolMethodAsync("Emulation.setDeviceMetricsOverride", deviceMetricsJson);
+
+        // 🔹 Enable touch simulation (unchanged)
+        var touchParams = new { enabled = true, maxTouchPoints = 10 };
+        string touchJson = System.Text.Json.JsonSerializer.Serialize(touchParams);
+        await _webView.CoreWebView2.CallDevToolsProtocolMethodAsync("Emulation.setTouchEmulationEnabled", touchJson);
+        
+        // 🔹 Navigation left untouched
+        //_webView.Source = new Uri("https://www.example.com/");
+    }
+
+
     private void RegisterPages()
     {
         var browserPage = new BrowserPage(_webView);
